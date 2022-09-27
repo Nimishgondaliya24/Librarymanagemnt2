@@ -1,10 +1,10 @@
 <?php
-    include("database.php");
+    include 'database.php';
     if(isset($_POST['save'])){
-        $first_name = $_POST['first_name'];
-    $email = $_POST['email'];
-    $last_name = $_POST['last_name'];
-    $pass = $_POST['pass'];
+        $first_name = $_POST['first_name'];       
+        $last_name = $_POST['last_name'];
+        $email = $_POST['email'];
+        $pass = $_POST['pass'];
           
     $sqlquery=mysqli_query($conn,"SELECT * FROM registration where Email='$email'");
     if(mysqli_num_rows($sqlquery) > 0)
@@ -15,15 +15,15 @@
     else
         {
             
-                    $query="INSERT INTO register(First_Name, Last_Name, Email, Password, File ) VALUES ('$first_name', '$last_name', '$email', 'md5($pass)','rrr')";
+                    $query="INSERT INTO registration(First_Name, Last_Name, Email, Password) VALUES ('$first_name', '$last_name', '$email', '$pass')";
                     $sql=mysqli_query($conn,$query)or die("Could Not Perform the Query");
                     header ("Location: login.php?status=success");
             
               
         }
     }
-
-    ?>
+    mysqli_close($conn);
+?>
     
 <!DOCTYPE html>
 <html lang="en">
@@ -43,12 +43,12 @@
 </head>
 <body>
 <div class="signup-form">
-    <form action="register_a.php" method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
 		<h2>Register</h2>
 		<p class="hint-text">Create your account</p>
         <div class="form-group">
 			<div class="row">
-				<div class="col"><input type="text" class="form-control" name="first_name" placeholder="First Name" required="required"></div>
+				<div class="col"><input type="text" class="form-control" name="first_name" placeholder="First Name" required="required"></div><br><br>
 				<div class="col"><input type="text" class="form-control" name="last_name" placeholder="Last Name" required="required"></div>
 			</div>        	
         </div>
@@ -61,10 +61,10 @@
 		<div class="form-group">
             <input type="password" class="form-control" name="cpass" placeholder="Confirm Password" required="required">
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <input type="file" name="file" required>
             <!-- <input type="submit" name="upload" value="Upload" class="btn"> -->
-        </div>        
+        </div>         
         <div class="form-group">
 			<label class="form-check-label"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> & <a href="#">Privacy Policy</a></label>
 		</div>
@@ -74,11 +74,7 @@
         <div class="text-center">Already have an account? <a href="login.php">Sign in</a></div>
     </form>
 
-    
-    
 
-
-	
 </div>
 </body>
 </html>
